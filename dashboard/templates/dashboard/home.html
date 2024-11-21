@@ -37,29 +37,33 @@
     width: 25px;
   }
 
-  .linko{
+  .linko {
     color: #ffffff;
     text-decoration: none;
   }
 
-  .linko:hover{
+  .linko:hover {
     color: #5c99f4;
   }
 
-  .cubio{
+  .cubio {
     height: 100px;
     width: 220px;
     background-color: #111C44;
     border-radius: 20px;
   }
 
-  .circlu{
+  .grafico {
+    max-width: 400px;
+    height: 300px;
+  }
+
+  .circlu {
     height: 50px;
     width: 50px;
     background-color: #1B254B;
     border-radius: 100%;
   }
-
 </style>
 
 <body class="vh-100">
@@ -104,11 +108,59 @@
           </div>
         </div>
       </div>
+      <canvas id="chart" class="grafico"></canvas>
+
 
     </Section>
   </main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
+
+<script>
+
+
+  import { initializeApp } from "firebase/app";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBqqDqzaJHsAtgjc2R221t6Qt6iFl6Joxg",
+    authDomain: "park-iot.firebaseapp.com",
+    projectId: "park-iot",
+    storageBucket: "park-iot.firebasestorage.app",
+    messagingSenderId: "344844357667",
+    appId: "1:344844357667:web:b4f03d9aa7c6ea3e47a196"
+  };
+
+
+  const app = initializeApp(firebaseConfig);
+
+  let labels = JSON.parse('{{ labels|safe }}');
+  let data = JSON.parse('{{ data|safe }}');
+
+  let ctx = document.getElementById("chart").getContext("2d");
+
+  let chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Vagas Ocupadas",
+          backgroundColor: "#79AEC8",
+          borderColor: "#417690",
+          data: data
+        }
+      ]
+    },
+    options: {
+      title: {
+        text: "Vagas Ocupadas",
+        display: true
+      }
+    }
+  });
+</script>
 
 </html>
